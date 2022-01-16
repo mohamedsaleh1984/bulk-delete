@@ -13,7 +13,6 @@ namespace BulkDelete
         {
             if (CheckUserParameters(args))
             {
-                string strFilePath = "files.txt";
                 foreach (var fil in getFiles(strFilePath))
                 {
                     File.SetAttributes(fil, FileAttributes.Normal);
