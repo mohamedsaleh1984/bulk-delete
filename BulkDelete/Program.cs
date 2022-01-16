@@ -13,11 +13,14 @@ namespace BulkDelete
         {
             if (CheckUserParameters(args))
             {
+                Console.WriteLine("Deleting Process Started");
                 foreach (var fil in getFiles(strFilePath))
                 {
                     File.SetAttributes(fil, FileAttributes.Normal);
                     File.Delete(fil);
+                    Console.WriteLine("Deleted " + fil);
                 }
+                Console.WriteLine("Deleting Process Finished");
             }
         }
 
