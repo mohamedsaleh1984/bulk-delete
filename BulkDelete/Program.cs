@@ -16,8 +16,13 @@ namespace BulkDelete
                 Console.WriteLine("Deleting Process Started");
                 foreach (var fil in getFiles(strFilePath))
                 {
-                    File.SetAttributes(fil, FileAttributes.Normal);
-                    File.Delete(fil);
+                    if (File.GetAttributes(fil).HasFlag( FileAttributes.Directory)) {
+                        Directory.Delete(fil, true);
+                    }
+                    else {
+                        File.SetAttributes(fil, FileAttributes.Normal);
+                        File.Delete(fil);
+                    }
                     Console.WriteLine("Deleted " + fil);
                 }
                 Console.WriteLine("Deleting Process Finished");
@@ -28,6 +33,7 @@ namespace BulkDelete
         {
             return File.ReadAllLines(filePath).ToList();
         }
+
         private static bool CheckUserParameters(string[] args)
         {
             if (args.Length == 0)
