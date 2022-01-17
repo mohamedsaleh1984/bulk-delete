@@ -16,14 +16,24 @@ namespace BulkDelete
                 Console.WriteLine("Deleting Process Started");
                 foreach (var fil in getFiles(strFilePath))
                 {
-                    if (File.GetAttributes(fil).HasFlag( FileAttributes.Directory)) {
-                        Directory.Delete(fil, true);
+                    try
+                    {
+                        if (File.GetAttributes(fil).HasFlag(FileAttributes.Directory))
+                        {
+                            Directory.Delete(fil, true);
+                        }
+                        else
+                        {
+                            File.SetAttributes(fil, FileAttributes.Normal);
+                            File.Delete(fil);
+                        }
+                        Console.WriteLine("Deleted " + Path.GetFileName(fil));
                     }
-                    else {
-                        File.SetAttributes(fil, FileAttributes.Normal);
-                        File.Delete(fil);
+                    catch (System.IO.FileNotFoundException ex)
+                    {
+                        Console.WriteLine(Path.GetFileName(fil) +" is not found.");
                     }
-                    Console.WriteLine("Deleted " + fil);
+
                 }
                 Console.WriteLine("Deleting Process Finished");
             }
